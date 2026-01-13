@@ -1,10 +1,8 @@
-// index.js - WebRTC signaling and video streaming server for Raspberry Pi
+// index.js - WebRTC signaling server
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
-
 const { RTCPeerConnection } = require('wrtc');
-const { createPiCameraTrack } = require('./video-capture');
 
 const app = express();
 const server = http.createServer(app);
@@ -22,25 +20,18 @@ app.use(express.static('public'));
 
 // Serve a simple page for testing
 app.get('/', (req, res) => {
-  res.send('<h2>WebRTC Pi Video Server Running</h2>');
+  res.send('<h2>WebRTC Signaling Server Running</h2>');
 });
 
 // WebRTC signaling
 io.on('connection', (socket) => {
   console.log('[SOCKET.IO] Client connected:', socket.id);
 
-
   socket.on('offer', async (offer) => {
     console.log(`[SIGNALING] Received offer from client ${socket.id}`);
-    // Create a new RTCPeerConnection for each client
     const pc = new RTCPeerConnection({
       iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
     });
-
-    // Add Pi camera video track
-    const videoTrack = createPiCameraTrack();
-    pc.addTrack(videoTrack);
-    console.log('[RTC] Video track added to PeerConnection');
 
     // Set remote offer
     await pc.setRemoteDescription(offer);
