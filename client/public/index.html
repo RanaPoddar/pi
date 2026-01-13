@@ -6,7 +6,7 @@
   <title>Pi WebRTC Stream Dashboard</title>
   <style>
     body { font-family: Arial, sans-serif; background: #181c20; color: #fff; text-align: center; }
-    #video { width: 80vw; max-width: 800px; background: #000; margin: 2em auto; border-radius: 8px; }
+    #mjpeg-stream { width: 80vw; max-width: 800px; background: #000; margin: 2em auto; border-radius: 8px; }
     #status { margin: 1em; }
     button { padding: 0.5em 1.5em; font-size: 1.1em; border-radius: 5px; border: none; background: #2d8cf0; color: #fff; cursor: pointer; }
     button:disabled { background: #555; }
@@ -15,7 +15,7 @@
 <body>
   <h1>Raspberry Pi Live Stream</h1>
   <div id="status">Connecting...</div>
-  <video id="video" autoplay playsinline controls></video>
+  <img id="mjpeg-stream" src="http://10.215.165.153:8080/stream" alt="Live Stream" style="width: 80vw; max-width: 800px; border-radius: 8px;" />
   <br>
   <button id="connectBtn">Connect to Stream</button>
   <script src="http://10.215.165.153:3000/socket.io/socket.io.js"></script>
