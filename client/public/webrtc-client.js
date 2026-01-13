@@ -1,5 +1,5 @@
 // webrtc-client.js - Handles WebRTC connection to Pi server
-const socket = io('http://localhost:3000'); // Change to Pi IP if needed
+const socket = io('http://10.215.165.153:3000'); // Change to Pi IP if needed
 const video = document.getElementById('video');
 const statusDiv = document.getElementById('status');
 const connectBtn = document.getElementById('connectBtn');
