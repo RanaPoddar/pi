@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pi WebRTC Stream Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #181c20; color: #fff; text-align: center; }
+    #video { width: 80vw; max-width: 800px; background: #000; margin: 2em auto; border-radius: 8px; }
+    #status { margin: 1em; }
+    button { padding: 0.5em 1.5em; font-size: 1.1em; border-radius: 5px; border: none; background: #2d8cf0; color: #fff; cursor: pointer; }
+    button:disabled { background: #555; }
+  </style>
+</head>
+<body>
+  <h1>Raspberry Pi Live Stream</h1>
+  <div id="status">Connecting...</div>
+  <video id="video" autoplay playsinline controls></video>
+  <br>
+  <button id="connectBtn">Connect to Stream</button>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="webrtc-client.js"></script>
+</body>
+</html>
