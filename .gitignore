@@ -1,0 +1,28 @@
+# Node
+node_modules/
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+*.log
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# VSCode
+.vscode/
+
+# Build
+/dist
+/build
+
+# Misc
+*.swp
+*.swo
+
+# Pi video streaming
+server/public/
+client/public/*.mp4
+client/public/*.webm

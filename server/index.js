@@ -69,5 +69,19 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  const os = require('os');
+  const interfaces = os.networkInterfaces();
+  let ip = 'localhost';
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name]) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        ip = iface.address;
+        break;
+      }
+    }
+    if (ip !== 'localhost') break;
+  }
+  console.log(`Server running on:`);
+  console.log(`  http://localhost:${PORT}`);
+  console.log(`  http://${ip}:${PORT}`);
 });
