@@ -3,19 +3,16 @@
 const { spawn } = require('child_process');
 const { RTCVideoSource, RTCVideoFrame } = require('wrtc');
 
-// Function to start raspivid and pipe frames to RTCVideoSource
+
+// Function to start rpicam-vid and pipe frames to RTCVideoSource
 function createPiCameraTrack() {
-	// Use raspivid to capture raw H264 video
-	// For demo, we use MJPEG for easier frame extraction (use --output - for stdout)
-	const raspivid = spawn('raspivid', [
+	// Use rpicam-vid to capture raw H264 video
+	const rpicam = spawn('rpicam-vid', [
 		'-t', '0', // no timeout
 		'-o', '-', // output to stdout
-		'-w', '640',
-		'-h', '480',
-		'-fps', '25',
-		'-pf', 'baseline',
-		'-ih', // insert headers
-		'-n' // no preview
+		'--width', '640',
+		'--height', '480',
+		'--framerate', '25'
 	]);
 
 	const videoSource = new RTCVideoSource();
@@ -24,8 +21,8 @@ function createPiCameraTrack() {
 	// Buffer for incoming data
 	let frameBuffer = Buffer.alloc(0);
 
-	// Listen for data from raspivid
-	raspivid.stdout.on('data', (data) => {
+	// Listen for data from rpicam-vid
+	rpicam.stdout.on('data', (data) => {
 		// In production, parse H264 NAL units or use ffmpeg to convert to raw frames
 		// For demo, we just push dummy frames (integration with real frames requires more parsing)
 		// Here, you would decode the frame and push to videoSource.onFrame
@@ -33,13 +30,13 @@ function createPiCameraTrack() {
 		// videoSource.onFrame(new RTCVideoFrame(decodedFrame));
 	});
 
-	raspivid.stderr.on('data', (data) => {
-		// Optionally log raspivid errors
-		// console.error('raspivid error:', data.toString());
+	rpicam.stderr.on('data', (data) => {
+		// Optionally log rpicam-vid errors
+		// console.error('rpicam-vid error:', data.toString());
 	});
 
-	raspivid.on('close', (code) => {
-		console.log('raspivid process exited with code', code);
+	rpicam.on('close', (code) => {
+		console.log('rpicam-vid process exited with code', code);
 	});
 
 	return track;
