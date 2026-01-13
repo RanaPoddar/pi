@@ -3,6 +3,7 @@ from picamera2 import Picamera2
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
 import io
+import socket
 
 # HTTP request handler for MJPEG stream
 class StreamHandler(BaseHTTPRequestHandler):
@@ -27,6 +28,13 @@ class StreamHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(404)
 
+# Get the Raspberry Pi's IP address dynamically
+def get_pi_ip():
+    hostname = socket.gethostname()
+    return socket.gethostbyname(hostname)
+
+pi_ip = get_pi_ip()
+
 # Start the camera
 camera = Picamera2()
 camera.configure(camera.create_still_configuration(main={"size": (640, 480)}))
@@ -34,7 +42,7 @@ camera.start()
 
 # Start HTTP server
 server = HTTPServer(("0.0.0.0", 8080), StreamHandler)
-print("MJPEG stream available at http://<Pi-IP>:8080/stream")
+print(f"MJPEG stream available at http://{pi_ip}:8080/stream")
 
 try:
     server.serve_forever()
